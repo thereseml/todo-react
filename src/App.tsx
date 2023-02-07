@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import { FaTrashAlt } from "react-icons/fa";
 
 function App() {
   const [todoList, setTodoList] = useState([] as string[]);
@@ -18,7 +19,7 @@ function App() {
     const newTodo = input.value;
     setTodoList([...todoList, newTodo]);
     input.value = "";
-    localStorage.setItem("todoList", JSON.stringify(todoList));
+    localStorage.setItem("todoList", JSON.stringify([...todoList, newTodo]));
   };
 
   const handleDeleteItem = (event: React.MouseEvent<HTMLLIElement>) => {
@@ -32,32 +33,36 @@ function App() {
   return (
     <div className="App text-white">
       <header>
-        <h1 className="text-3xl font-bold">Todo in React</h1>
+        <h1 className="text-3xl font-bold m-10">Todo in React</h1>
       </header>
       <main>
         <section>
           <h2>Vad behöver jag göra?</h2>
-          <ul>
-            {todoList.map((todo) => (
-              <li className="flex" onClick={handleDeleteItem}>
-                <h3>{todo}</h3>
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section>
-          <h2>Lägg till i din lista:</h2>
-          <form className="flex flex-col">
+          <form className="flex items-center m-5">
             <input
               type="text"
               id="todo-text"
-              className="text-black"
+              className="text-black h-5"
               placeholder="Skriv.."
             />
-            <button type="submit" onClick={handleSubmit}>
+            <button
+              type="button"
+              className="bg-violet-500 p-2 mx-2"
+              onClick={handleSubmit}
+            >
               Lägg till
             </button>
           </form>
+        </section>
+        <section>
+          <ul className="">
+            {todoList.map((todo) => (
+              <li className="flex justify-between" onClick={handleDeleteItem}>
+                <h3>{todo}</h3>
+                <FaTrashAlt />
+              </li>
+            ))}
+          </ul>
         </section>
       </main>
     </div>
